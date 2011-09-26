@@ -1,0 +1,16 @@
+...
+
+Requires GAE 1.5.3+
+
+Uses the following libraries:
+//SimpleJson 2.0.9
+//gaepytz-2011h
+
+
+Details RE: C1
+* Login - https://cadetone.aafc.org.au/logon.php
+-- POST, params 'ServiceNo'=xxx, 'Password'=xxx
+* Activity Details - https://cadetone.aafc.org.au/activities/viewactivity.php?ActID=xxxx
+-- Info contained in the subtable of the 3rd table
+* Nominal Roll - https://cadetone.aafc.org.au/activities/nominalroll.php?ActID=xxxx
+-- 2nd-5th subtables of 3rd table, emails just below each table in same order as names. Need to remove 2x header rows/table.
