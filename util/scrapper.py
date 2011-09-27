@@ -1,4 +1,4 @@
-from urlopen import URLOpener
+from urlopener import URLOpener
 
 import urllib
 
