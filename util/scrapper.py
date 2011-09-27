@@ -4,6 +4,7 @@ import urllib
 
 _logon_url = 'https://cadetone.aafc.org.au/logon.php'
 _logout_url = 'https://cadetone.aafc.org.au/logout.php'
+_change_unit_url = 'https://cadetone.aafc.org.au/changeunit.php'
 _act_details_url = 'https://cadetone.aafc.org.au/activities/viewactivity.php?ActID='
 _act_roll_url = 'https://cadetone.aafc.org.au/activities/nominalroll.php?ActID='
 
@@ -19,7 +20,14 @@ def login(usr, pwd):
       'ServiceNo' : usr,
       'Password' : pwd})
 
-  return opener.open(_logon_url, data=param)
+  opener.open(_logon_url, data=param)
+
+  # Change to 3WG appointment
+  param = urllib.urlencode({
+      'UnitDetId' : '3,0'})
+  opener.open(_change_unit_url)
+
+  return opener
 
 def _logout(opener):
   opener.open(_logout_url)
