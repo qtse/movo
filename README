@@ -3,6 +3,7 @@
 Requires GAE 1.5.3+
 
 Uses the following libraries:
+BeautifulSoup 3.2.0
 //SimpleJson 2.0.9
 //gaepytz-2011h
 
