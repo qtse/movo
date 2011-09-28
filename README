@@ -7,6 +7,95 @@ BeautifulSoup 3.2.0
 //SimpleJson 2.0.9
 //gaepytz-2011h
 
+Interface:
+- Standard appspot login/logout
+- Standard appspot admin
+
+/c1/login
+  * POST - c1_usr=<service no>, c1_pwd=<C1 password>
+    Logs into C1, putting cookie into memcache, mapped to user account. TTL 20min.
+    Returns:
+      204 No Content - OK
+      401 Unauthorised - C1 login failed or client not logged in
+/c1/logout
+  * POST/UPDATE
+    Logs out of C1, remove cookie from, memcache
+    Returns:
+      204 No Content  - always
+
+/course
+  * GET - active_only=<true/false, default true>, name=<starting characters>.
+    Returns:
+      200 OK - all courses satisfying the given conditions (even for no matches)
+      401 Unauthorised - Client not logged in
+  * UPDATE
+    Update info for active courses using data from C1. Inactive courses will not be updated.
+    Returns:
+      200 OK - all courses with changes
+      401 Unauthorised - Client not logged in or C1 not authorised
+/course/<c1 id>
+  * GET
+    Returns:
+      200 OK - course with <c1 id>
+      401 Unauthorised - Client not logged in
+      404 Not Found - course does not exists
+  * POST
+    Creates a new course on the system, populated using data from C1. If retrieval fails, course not created.
+    Returns:
+      201 Created - course added
+      401 Unauthorised - Client not logged in or C1 not authorised
+      404 Not Found - C1 entry not found
+  * UPDATE
+    Update info for <c1 id> using data from C1.
+    Returns:
+      200 OK - courses info if there are changes
+      204 No Content - if there are no changes
+      401 Unauthorised - Client not logged in or C1 not authorised
+      404 Not Found - course does not exists
+      410 Gone - C1 entry not found
+  * DELETE
+    Remove course from system.
+    Returns:
+      204 No Content - if deleted
+      401 Unauthorised - Client not logged in
+      404 Not Found - course does not exists
+/course/<c1 id>/participant
+  * GET
+    Returns:
+      200 OK - all participants for the course
+      401 Unauthorised - Client not logged in
+      404 Not Found - course does not exists
+  * UPDATE
+    Update info for active courses using data from C1. Inactive courses will not be updated.
+    Returns:
+      200 OK - all courses with changes
+      401 Unauthorised - Client not logged in or C1 not authorised
+/course/<c1 id>
+  * GET
+    Returns:
+      200 OK - course with <c1 id>
+      401 Unauthorised - Client not logged in
+      404 Not Found - course does not exists
+  * POST
+    Creates a new course on the system, populated using data from C1. If retrieval fails, course not created.
+    Returns:
+      201 Created - course added
+      401 Unauthorised - Client not logged in or C1 not authorised
+      404 Not Found - C1 entry not found
+  * UPDATE
+    Update info for <c1 id> using data from C1.
+    Returns:
+      200 OK - courses info if there are changes
+      204 No Content - if there are no changes
+      401 Unauthorised - Client not logged in or C1 not authorised
+      404 Not Found - course does not exists
+      410 Gone - C1 entry not found
+  * DELETE
+    Remove course from system.
+    Returns:
+      204 No Content - if deleted
+      401 Unauthorised - Client not logged in
+      404 Not Found - course does not exists
 
 Details RE: C1
 * Login - https://cadetone.aafc.org.au/logon.php
