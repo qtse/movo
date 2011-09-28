@@ -51,14 +51,43 @@ def _parse_act_pages(pages):
 
 
 def _parse_roll_pages(pages):
+  res = []
   for p in pages:
     soup = BeautifulSoup(p)
 
-  # XXX
-  print res
+    if soup.find(text=re.compile('not authorised')):
+      continue
+
+    curr = soup.body.table #1st table
+    curr = curr.findNextSibling('table').findNextSibling('table') #3rd table
+    curr = curr.table #1st sub table
+
+    for i in range(1, 5):
+      curr = curr.findNextSibling('table')
+
+      row = curr.tr.findNextSibling('tr').findNextSibling('tr') # ignore 1st 2 header rows
+
+      while row is not None:
+        if row.find(text=re.compile('No records found')):
+          break
+
+        r = {}
+        cell = row.td
+        r['rank'] = cell.contents[0]
+        cell = cell.findNextSibling('td')
+        r['first_name'] = cell.contents[0]
+        cell = cell.findNextSibling('td')
+        r['last_name'] = cell.contents[0]
+        cell = cell.findNextSibling('td')
+        r['service_no'] = cell.contents[0]
+        cell = cell.findNextSibling('td')
+        r['unit'] = cell.contents[0]
+        cell = cell.findNextSibling('td')
+
+        res.append(r)
+        row = row.findNextSibling('tr')
 
   return res
-  return pages
 
 def login(usr, pwd):
   opener = URLOpener()
