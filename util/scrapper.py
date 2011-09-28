@@ -1,6 +1,8 @@
 from urlopener import URLOpener
 from BeautifulSoup import BeautifulSoup
 
+from datetime import datetime
+
 import re
 import urllib
 
@@ -30,10 +32,12 @@ def _parse_act_pages(pages):
     curr = soup.find(text=re.compile('Start'))
     if curr:
       r['start'] = curr.parent.findNextSibling('td').contents[0].replace('&nbsp;', ' ')
+      r['start'] = datetime.strptime(r['start'], '%d %b %Y %H:%M').date()
 
     curr = soup.find(text=re.compile('Finish'))
     if curr:
       r['finish'] = curr.parent.findNextSibling('td').contents[0].replace('&nbsp;', ' ')
+      r['finish'] = datetime.strptime(r['finish'], '%d %b %Y %H:%M').date()
 
     curr = soup.find(text=re.compile('Cadets:'))
     if curr:
@@ -45,13 +49,15 @@ def _parse_act_pages(pages):
 
     res.append(r)
 
-  print res
-  return pages
 
 def _parse_roll_pages(pages):
   for p in pages:
     soup = BeautifulSoup(p)
 
+  # XXX
+  print res
+
+  return res
   return pages
 
 def login(usr, pwd):
