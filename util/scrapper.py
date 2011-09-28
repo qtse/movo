@@ -1,5 +1,7 @@
 from urlopener import URLOpener
+from BeautifulSoup import BeautifulSoup
 
+import re
 import urllib
 
 _logon_url = 'https://cadetone.aafc.org.au/logon.php'
@@ -9,9 +11,47 @@ _act_details_url = 'https://cadetone.aafc.org.au/activities/viewactivity.php?'
 _act_roll_url = 'https://cadetone.aafc.org.au/activities/nominalroll.php?'
 
 def _parse_act_pages(pages):
+  res = []
+  for p in pages:
+    soup = BeautifulSoup(p)
+    if soup.find(text=re.compile('not authorised')):
+      continue
+
+    r = {}
+
+    curr = soup.find(text=re.compile('Name:'))
+    if curr:
+      r['name'] = curr.parent.findNextSibling('td').contents[0]
+
+    curr = soup.find(text=re.compile('Location:'))
+    if curr:
+      r['loc'] = curr.parent.findNextSibling('td').contents[0]
+
+    curr = soup.find(text=re.compile('Start'))
+    if curr:
+      r['start'] = curr.parent.findNextSibling('td').contents[0].replace('&nbsp;', ' ')
+
+    curr = soup.find(text=re.compile('Finish'))
+    if curr:
+      r['finish'] = curr.parent.findNextSibling('td').contents[0].replace('&nbsp;', ' ')
+
+    curr = soup.find(text=re.compile('Cadets:'))
+    if curr:
+      r['pax_no'] = int(curr.parent.findNextSibling('td').contents[0])
+
+    curr = soup.find(text=re.compile('Staff:'))
+    if curr:
+      r['pax_no'] += int(curr.parent.findNextSibling('td').contents[0])
+
+    res.append(r)
+
+  print res
   return pages
 
 def _parse_roll_pages(pages):
+  for p in pages:
+    soup = BeautifulSoup(p)
+
   return pages
 
 def login(usr, pwd):
