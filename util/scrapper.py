@@ -72,6 +72,7 @@ def _parse_act_pages(pages):
   for act, p in pages:
     soup = BeautifulSoup(p)
     if soup.find(text=re.compile('not authorised')):
+      res.append({'act_id' : act, 'name':None})
       continue
 
     r = {}
