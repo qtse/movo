@@ -49,6 +49,8 @@ def _parse_act_pages(pages):
 
     res.append(r)
 
+  return res
+
 
 def _parse_roll_pages(pages):
   res = []
