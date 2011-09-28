@@ -37,28 +37,21 @@ from util.urlopener import URLOpener
 ###from datetime import datetime
 
 ###from views import views
-###from views import jsonfmt as fmt
-###import simplejson as json
+from views import jsonfmt as fmt
+import simplejson as json
 
-###def parse_date(s):
-###  return datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.Z")
+def parse_date(s):
+  return datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.Z")
 
 class MainHandler(webapp.RequestHandler):
   def get(self, obj_type, arg=''):
-###    arg = arg.strip()
-###    if len(arg) > 0 and arg[-1] == '/':
-###      arg = arg[:-1]
-###    args = arg.strip().split('/')
-###    res = None
+    arg = arg.strip()
+    if len(arg) > 0 and arg[-1] == '/':
+      arg = arg[:-1]
+    args = arg.strip().split('/')
+    res = None
 
-###    self.response.out.write(json.dumps(res, default=fmt.json_handler))
-    opener = URLOpener()
-    param = urllib.urlencode({
-                'ServiceNo' : '',
-                'Password' : '',
-                })
-    opener.open('https://cadetone.aafc.org.au/logon.php', data=param)
-    self.response.out.write(opener.open('https://cadetone.aafc.org.au/activities/viewactivity.php?ActID=6100').content)
+    self.response.out.write(json.dumps(res, default=fmt.json_handler))
 
   def post(self, obj_type, arg=''):
     pass
